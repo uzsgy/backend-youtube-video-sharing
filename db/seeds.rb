@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 ActiveRecord::Base.transaction do
-  User.create(
+  User.create!(
     username: "admin",
     email: "admin@gmail.com",
     password: "password",
@@ -16,7 +16,7 @@ ActiveRecord::Base.transaction do
 
   (1..10).each do |n|
     username = Faker::Internet.username(specifier: 5..10)
-    User.create(
+    User.create!(
       username: username,
       email: "#{username}@gmail.com",
       password: "password",
@@ -26,10 +26,10 @@ ActiveRecord::Base.transaction do
   end
 
   (1..10).each do |n|
-    Video.create(
+    Video.create!(
       user: User.all.sample,
-      url: "https://www.youtube.com/watch?v=gDJJAs8GZGw",
-      embed_url: `<iframe width="560" height="315" src="https://www.youtube.com/embed/gDJJAs8GZGw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`,
+      code: "gDJJAs8GZGw",
+      thumbnails: "https://i.ytimg.com/vi/gDJJAs8GZGw/maxresdefault.jpg",
       title: "Pháo Northside x Tez - SẬP ft. Megazetz x Hngtoom [Official Audio]",
       description: `
       347.742 lượt xem  17 thg 2, 2022  #phaonorthside #tez #sap

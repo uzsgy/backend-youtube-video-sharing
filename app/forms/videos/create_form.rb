@@ -10,13 +10,13 @@ module Videos
       ActiveModel::Name(self, nil, "Video")
     end
 
-    validates_format_of :url, with: /\A(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?\z/
-
-    delegate :user_id, :url, :embed_url, :title, :description, to: :video
+    delegate :user_id, :code, :title, :description, :thumbnails, to: :video
+    validates_presence_of :code, :title, :description, :thumbnails
 
     def initialize(user, params)
       @params = params
-      @video = Video.new video_params.merge(user: user)
+      @video = YoutubeApi.new(params[:url]).get_video
+      @video.user = user if @video.present?
     end
 
     def video
@@ -24,16 +24,10 @@ module Videos
     end
 
     def save
-      return false unless valid?
+      return false unless valid? && @video
+
       video.save!
-
       true
-    end
-
-    private
-
-    def video_params
-      @params.permit(:url)
     end
   end
 end

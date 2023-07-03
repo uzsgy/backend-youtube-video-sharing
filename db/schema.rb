@@ -26,10 +26,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_01_145327) do
 
   create_table "videos", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "url"
-    t.string "embed_url"
-    t.string "title"
-    t.string "description"
+    t.string "code", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.string "thumbnails", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
