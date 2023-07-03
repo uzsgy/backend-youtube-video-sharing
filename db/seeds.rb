@@ -5,3 +5,26 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+ActiveRecord::Base.transaction do
+  User.create(
+    username: "admin",
+    email: "admin@gmail.com",
+    password: "password",
+    password_confirmation: "password",
+    role: "1",
+  )
+
+  (1..10).each do |n|
+    username = Faker::Internet.username(specifier: 5..10)
+    User.create(
+      username: username,
+      email: "#{username}@gmail.com",
+      password: "password",
+      password_confirmation: "password",
+      role: "2",
+    )
+  end
+  puts "seeding successful!"
+rescue
+  puts "seeding failure!"
+end

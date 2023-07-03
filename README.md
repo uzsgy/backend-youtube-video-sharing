@@ -1,24 +1,25 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+#### To start project, please run command below:
 
-Things you may want to cover:
+```ruby
+docker-compose -f docker/docker-compose.yml up -d
+```
 
-* Ruby version
+please make sure all port: 63790, 4001, 8888 is not using. it will start 4 services:
 
-* System dependencies
+- web ruby on rails
+- db: mysql 5.7
+- redis: latest
+- phpmyadmin: to connect with database db
 
-* Configuration
+after start all services. you need to execute command below to generate database in rails web application:
 
-* Database creation
+```ruby
+docker exec -it backend_youtube_video_sharing bash
+bundle exec rails db:create
+bundle exec rails db:migrate
+bundle exec rails db:seed
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+after run command, you can go to this page to check everything work ok. `localhost:4001`
