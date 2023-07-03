@@ -1,0 +1,59 @@
+version: "3"
+services:
+  yvs_db:
+    image: mysql:5.7
+    container_name: db_youtube_video_sharing
+    platform: linux/amd64
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      youtube_video_sharing_network:
+        ipv4_address: 172.35.0.2
+  yvs_redis:
+    image: redis:latest
+    container_name: redis_youtube_video_sharing
+    platform: linux/amd64
+    ports:
+      - 63790:6379
+    networks:
+      youtube_video_sharing_network:
+        ipv4_address: 172.35.0.3
+  yvs_backend:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.backend
+    image: backend_youtube_video_sharing
+    container_name: backend_youtube_video_sharing
+    platform: linux/amd64
+    tty: true
+    stdin_open: true
+    volumes:
+      - ../:/app
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -b 0.0.0.0"
+    ports:
+      - "4001:3000"
+    depends_on:
+      - yvs_db
+      - yvs_redis
+    networks:
+      youtube_video_sharing_network:
+        ipv4_address: 172.35.0.4
+  yvs_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_youtube_video_sharing
+    platform: linux/amd64
+    links:
+      - yvs_db:mysql
+    ports:
+      - 8888:80
+    networks:
+      youtube_video_sharing_network:
+        ipv4_address: 172.35.0.5
+networks:
+  youtube_video_sharing_network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      config:
+        - subnet: 172.35.0.0/16
