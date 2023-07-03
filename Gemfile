@@ -10,6 +10,8 @@ gem "bootsnap", require: false
 gem "paranoia", "~> 2.6", ">= 2.6.2"
 gem "faker", "~> 3.2"
 gem "bcrypt", "~> 3.1", ">= 3.1.19"
+gem "ransack", "~> 4.0"
+gem "kaminari", "~> 1.2", ">= 1.2.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
