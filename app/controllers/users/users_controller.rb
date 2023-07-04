@@ -13,7 +13,7 @@ module Users
         session[:user_id] = form.user.id
         render json: form.user, status: 200
       else
-        render json: form.user.errors.full_messages, status: 502
+        render json: form.user.errors.full_messages, status: 301
       end
     end
 
@@ -23,12 +23,12 @@ module Users
       if form.save
         render json: true, status: 200
       else
-        render json: form.errors.full_messages, status: 502
+        render json: form.errors.full_messages, status: 301
       end
     end
 
     def login
-      user = User.find_by(email: params[:username]) || User.find_by(username: params[:username])
+      user = User.find_by(email: params[:email])
       if user && user.authenticate(params[:password])
         session[:user_id] = user.id
         render json: user, status: 200

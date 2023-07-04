@@ -14,7 +14,7 @@ ActiveRecord::Base.transaction do
     role: "1",
   )
 
-  (1..10).each do |n|
+  10.times do |n|
     username = Faker::Internet.username(specifier: 5..10)
     User.create!(
       username: username,
@@ -25,30 +25,41 @@ ActiveRecord::Base.transaction do
     )
   end
 
-  (1..10).each do |n|
+  users = User.all
+
+  10.times do |n|
     Video.create!(
-      user: User.all.sample,
+      user: users.sample,
       code: "gDJJAs8GZGw",
       thumbnails: "https://i.ytimg.com/vi/gDJJAs8GZGw/maxresdefault.jpg",
       title: "Pháo Northside x Tez - SẬP ft. Megazetz x Hngtoom [Official Audio]",
-      description: `
-      347.742 lượt xem  17 thg 2, 2022  #phaonorthside #tez #sap
-      Pháo Northside x @Tez O.Alquimista - SẬP (Official MV) ft. Megazetz, Hngtoom
-      Lyric Composer: Pháo ,Tez
-      Producer: Megazetz , Hngtoom 
-      Mix & Master: Lowa Recordings 
-      ---------
-      • Theo dõi Pháo tại : 
-      Facebook: https://www.facebook.com/dieu.huyenn.3
-      Youtube: phaonorthside
-      SoundClound https://soundcloud.com/user-936326155
-      Email: Booking@Phaonorthside.com
-      Contact: (+84)909 84 9922
-      ---------------------------------------------------
-      • Vui lòng không reup video 
-      • Mọi vấn đề liên quan tới bản quyền vui lòng gửi email tới: Booking@Phaonorthside.com
-      #phaonorthside #tez #sap`,
+      description: "\n \
+      347.742 lượt xem  17 thg 2, 2022  #phaonorthside #tez #sap\n \
+      Pháo Northside x @Tez O.Alquimista - SẬP (Official MV) ft. Megazetz, Hngtoom\n \
+      Lyric Composer: Pháo ,Tez\n \
+      Producer: Megazetz , Hngtoom \n \
+      Mix & Master: Lowa Recordings \n \
+      ---------\n \
+      • Theo dõi Pháo tại : \n \
+      Facebook: https://www.facebook.com/dieu.huyenn.3\n \
+      Youtube: phaonorthside\n \
+      SoundClound https://soundcloud.com/user-936326155\n \
+      Email: Booking@Phaonorthside.com\n \
+      Contact: (+84)909 84 9922\n \
+      ---------------------------------------------------\n \
+      • Vui lòng không reup video \n \
+      • Mọi vấn đề liên quan tới bản quyền vui lòng gửi email tới: Booking@Phaonorthside.com\n \
+      #phaonorthside #tez #sap",
     )
+  end
+
+  videos = Video.all
+  prefs = Preference.prefs.to_a
+
+  users.each do |user|
+    5.times do
+      user.preferences.create!(pref: prefs.sample.second, video: videos.sample)
+    end
   end
   puts "seeding successful!"
 rescue
