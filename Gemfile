@@ -16,6 +16,7 @@ gem "yt", "~> 0.33.4"
 gem "omniauth-google-oauth2"
 gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
 gem "google-api-client"
+gem "rack-cors"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

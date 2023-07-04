@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_01_145327) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_01_195642) do
+  create_table "preferences", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "video_id"
+    t.integer "pref"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_preferences_on_user_id"
+    t.index ["video_id"], name: "index_preferences_on_video_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -37,5 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_01_145327) do
     t.index ["user_id"], name: "index_videos_on_user_id"
   end
 
+  add_foreign_key "preferences", "users"
+  add_foreign_key "preferences", "videos"
   add_foreign_key "videos", "users"
 end

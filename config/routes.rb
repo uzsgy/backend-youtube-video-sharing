@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   scope module: :videos do
     resources :videos, except: %i[new edit update]
   end
+
+  get "like_video/:video_id", to: "preferences#like"
+  get "dislike_video/:video_id", to: "preferences#dislike"
 end
